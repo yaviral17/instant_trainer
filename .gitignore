@@ -49,5 +49,4 @@ app.*.map.json
 
 /.vscode/
 pubspec.lock
-lib/screens/onboarding/onboarding_screen5.dart
 .metadata
