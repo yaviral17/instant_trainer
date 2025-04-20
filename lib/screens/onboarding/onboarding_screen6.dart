@@ -34,7 +34,7 @@ class _OnboardingScreen6State extends State<OnboardingScreen6> {
       return;
     }
 
-    log('Selected Spending: ${controller.selectedSpending.value.prompt}');
+    // log('Selected Spending: ${controller.selectedSpending.value.prompt}');
 
     PNavigate.materialToRight(GeneratingDietPlan());
   }

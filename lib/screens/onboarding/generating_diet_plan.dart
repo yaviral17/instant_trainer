@@ -145,14 +145,14 @@ Please generate a structured JSON response with the following format:
 
     Map<String, dynamic> response = await tGetDietPlan(prompt);
 
-    Get.log('Response: $response');
+    // Get.log('Response: $response');
     isLoading.value = false;
     if (response['isSuccess'] == true) {
       controller.generatedDietPlan.value = response;
       controller.generatedDietPlan['createAt'] =
           DateTime.now().toIso8601String();
       LocalStorage().saveData('dietPlan', response);
-      log('Diet plan saved to local storage');
+      // log('Diet plan saved to local storage');
       Future.delayed(Duration(seconds: 3), () {
         PNavigate.toAndRemoveUntil(DietplanScreen());
       });

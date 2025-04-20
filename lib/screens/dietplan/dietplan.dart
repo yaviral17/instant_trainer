@@ -29,7 +29,7 @@ class _DietplanScreenState extends State<DietplanScreen> {
 
   void regenerateDietPlan() async {
     promptData = LocalStorage().getData('dietPlanPrompt') ?? {};
-    log('Prompt Data: $promptData');
+    // log('Prompt Data: $promptData');
 
     if (promptData.isEmpty) {
       PHelper.showErrorMessageGet(
@@ -79,7 +79,7 @@ class _DietplanScreenState extends State<DietplanScreen> {
           .replaceAll('json', ''),
     );
     promptData = LocalStorage().getData('dietPlanPrompt') ?? {};
-    log('Diet Plan: ${dietPlan.toString()}');
+    // log('Diet Plan: ${dietPlan.toString()}');
   }
 
   @override

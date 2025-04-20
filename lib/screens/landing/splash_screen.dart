@@ -20,7 +20,7 @@ class _SplashScreenState extends State<SplashScreen> {
     // TODO: implement initStates
     super.initState();
     Future.delayed(const Duration(seconds: 3), () {
-      log(LocalStorage().dataExists('dietPlan').toString(), name: "dietPlan");
+      // log(LocalStorage().dataExists('dietPlan').toString(), name: "dietPlan");
       LocalStorage().dataExists('dietPlan')
           ? PNavigate.to(DietplanScreen())
           : PNavigate.to(LandingAuthScreen());

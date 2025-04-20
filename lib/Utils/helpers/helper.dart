@@ -197,7 +197,7 @@ class PHelper {
       permissionToRequest = Permission.photos;
     }
     final status = await permissionToRequest.request();
-    log('Storage permission status: $status');
+    // log('Storage permission status: $status');
     if (status.isDenied) {
       Get.snackbar(
         "Storage Permission not provided",
@@ -307,7 +307,7 @@ class PHelper {
     if (await permissionToRequest.status.isDenied) {
       return await permissionToRequest.request();
     }
-    log('Storage permission denied');
+    // log('Storage permission denied');
     return permissionToRequest.status;
   }
 

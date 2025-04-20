@@ -1,4 +1,4 @@
-package com.example.instant_trainer
+package com.yaviral.trainer
 
 import io.flutter.embedding.android.FlutterActivity
 

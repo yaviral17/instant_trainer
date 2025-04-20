@@ -249,36 +249,29 @@ class DietCardWidget extends StatelessWidget {
               ),
             ),
             SizedBox(width: PSize.arw(context, 12)),
-            ZoomTapAnimation(
-              onTap: () {
-                // Handle selection
-                // You can use the index to identify the selected diet
-                print("Selected diet: ${diet.name}");
-              },
-              child: Container(
-                width: PSize.arw(context, 24),
-                height: PSize.arw(context, 24),
-                decoration: BoxDecoration(
-                  // color: PColors.primary(context),
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(
-                    color: PColors.primaryText(context),
-                    width: 2,
-                  ),
+            Container(
+              width: PSize.arw(context, 24),
+              height: PSize.arw(context, 24),
+              decoration: BoxDecoration(
+                // color: PColors.primary(context),
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(
+                  color: PColors.primaryText(context),
+                  width: 2,
                 ),
-                child:
-                    isSelected
-                        ? Container(
-                          width: PSize.arw(context, 24),
-                          height: PSize.arw(context, 24),
-                          margin: const EdgeInsets.all(4),
-                          decoration: BoxDecoration(
-                            color: PColors.primaryText(context),
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                        )
-                        : null,
               ),
+              child:
+                  isSelected
+                      ? Container(
+                        width: PSize.arw(context, 24),
+                        height: PSize.arw(context, 24),
+                        margin: const EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          color: PColors.primaryText(context),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                      )
+                      : null,
             ),
           ],
         ),

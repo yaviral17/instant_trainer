@@ -34,9 +34,9 @@ void main() async {
   PSize.screenHeight = 812;
   PSize.screenWidth = 375;
   await GetStorage.init();
-  log(
-    'GetStorage initialized  diet plan ${LocalStorage().getData('dietPlan')}',
-  );
+  // log(
+  //   'GetStorage initialized  diet plan ${LocalStorage().getData('dietPlan')}',
+  // );
   initializeControllers();
   runApp(const StartApp());
 }
