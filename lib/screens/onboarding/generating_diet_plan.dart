@@ -1,16 +1,21 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:instant_trainer/APIs/api_functions.dart';
-import 'package:instant_trainer/APIs/ollama_service_api.dart';
+import 'package:instant_trainer/Utils/helpers/navigations.dart';
 import 'package:instant_trainer/Utils/sizes.dart';
+import 'package:instant_trainer/Utils/storage/local_storage.dart';
 import 'package:instant_trainer/Utils/theme/colors.dart';
 import 'package:instant_trainer/controllers/onboarding_controller.dart';
 import 'package:instant_trainer/enums/supliments_prefrence_enum.dart';
+import 'package:instant_trainer/screens/dietplan/dietplan.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
 class GeneratingDietPlan extends StatefulWidget {
-  const GeneratingDietPlan({super.key});
+  final String? prompt;
+  const GeneratingDietPlan({super.key, this.prompt});
 
   @override
   State<GeneratingDietPlan> createState() => _GeneratingDietPlanState();
@@ -22,6 +27,11 @@ class _GeneratingDietPlanState extends State<GeneratingDietPlan> {
   RxBool isLoading = true.obs;
 
   Future<Map<String, dynamic>?> _generateDietPlan() async {
+    // if (controller.generatedDietPlan.isNotEmpty) {
+    //   log('Diet plan already generated');
+    //   return controller.generatedDietPlan;
+    // }
+
     isLoading.value = true;
 
     String prompt = '''
@@ -125,14 +135,30 @@ Please generate a structured JSON response with the following format:
     "notes": "Drink water throughout the day."
   },
 }
+```
+### NOTES 
+-  Just provide the JSON response without any additional text or explanation.
+- ensure the JSON structure and keys name are same as given above.
 ''';
 
-    Get.log('Prompt: $prompt');
+    LocalStorage().saveData('dietPlanPrompt', {'prompt': prompt});
 
     Map<String, dynamic> response = await tGetDietPlan(prompt);
 
     Get.log('Response: $response');
     isLoading.value = false;
+    if (response['isSuccess'] == true) {
+      controller.generatedDietPlan.value = response;
+      controller.generatedDietPlan['createAt'] =
+          DateTime.now().toIso8601String();
+      LocalStorage().saveData('dietPlan', response);
+      log('Diet plan saved to local storage');
+      Future.delayed(Duration(seconds: 3), () {
+        PNavigate.toAndRemoveUntil(DietplanScreen());
+      });
+    } else {
+      controller.generatedDietPlan.value = {};
+    }
     return response;
   }
 
@@ -356,36 +382,42 @@ Please generate a structured JSON response with the following format:
                               ),
                             ),
                             Spacer(),
-                            ZoomTapAnimation(
-                              child: Container(
-                                width: PSize.displayWidth(context),
-                                height: PSize.arh(context, 56),
-                                decoration: BoxDecoration(
-                                  color: PColors.backgroundDark,
-                                  borderRadius: BorderRadius.circular(18),
-                                ),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      'Continue',
-                                      style: TextStyle(
-                                        fontSize: PSize.arw(context, 20),
-                                        color: PColors.primaryTextDark,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                    SizedBox(width: PSize.arw(context, 10)),
-                                    Icon(
-                                      Icons.arrow_forward_rounded,
-                                      color: PColors.primaryTextDark,
-                                      size: PSize.arw(context, 24),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
+
+                            // ZoomTapAnimation(
+                            //   onTap: () {
+                            //     PNavigate.materialToRightOneReplacement(
+                            //       DietplanScreen(),
+                            //     );
+                            //   },
+                            //   child: Container(
+                            //     width: PSize.displayWidth(context),
+                            //     height: PSize.arh(context, 56),
+                            //     decoration: BoxDecoration(
+                            //       color: PColors.backgroundDark,
+                            //       borderRadius: BorderRadius.circular(18),
+                            //     ),
+                            //     child: Row(
+                            //       mainAxisSize: MainAxisSize.max,
+                            //       mainAxisAlignment: MainAxisAlignment.center,
+                            //       children: [
+                            //         Text(
+                            //           'Continue',
+                            //           style: TextStyle(
+                            //             fontSize: PSize.arw(context, 20),
+                            //             color: PColors.primaryTextDark,
+                            //             fontWeight: FontWeight.w600,
+                            //           ),
+                            //         ),
+                            //         SizedBox(width: PSize.arw(context, 10)),
+                            //         Icon(
+                            //           Icons.arrow_forward_rounded,
+                            //           color: PColors.primaryTextDark,
+                            //           size: PSize.arw(context, 24),
+                            //         ),
+                            //       ],
+                            //     ),
+                            //   ),
+                            // ),
                           ],
                         );
                       },

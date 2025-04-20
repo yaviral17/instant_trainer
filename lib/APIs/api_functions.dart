@@ -1,18 +1,21 @@
 import 'dart:convert';
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
+import 'package:instant_trainer/APIs/api_urls.dart';
 
 Future<Map<String, dynamic>> tGetDietPlan(String prompt) async {
-  var headers = {'Content-Type': 'application/json'};
-  var request = http.Request(
-    'POST',
-    Uri.parse('http://192.168.29.118:11434/api/chat'),
-  );
+  var headers = {
+    'Content-Type': 'application/json',
+
+    "Authorization": "Bearer ${dotenv.env['API_KEY']}",
+  };
+  var request = http.Request('POST', Uri.parse('$tHost$tChat'));
   request.body = jsonEncode({
     "messages": [
       {"role": "system", "content": prompt},
     ],
-    "model": "gemma3:1b",
+    "model": "meta-llama/llama-4-scout-17b-16e-instruct",
     "temperature": 1,
     "max_completion_tokens": 1024,
     "top_p": 1,

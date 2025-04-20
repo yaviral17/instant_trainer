@@ -53,7 +53,7 @@ class _LandingAuthScreenState extends State<LandingAuthScreen> {
                     ),
                     const SizedBox(height: 20),
                     Text(
-                      'Welsome to',
+                      'Welcome to',
                       style: TextStyle(
                         fontSize: PSize.arw(context, 64),
                         color: Colors.white,
@@ -127,37 +127,38 @@ class _LandingAuthScreenState extends State<LandingAuthScreen> {
                       ),
                     ),
                     SizedBox(height: PSize.rh(context, 20)),
-                    Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Already have an account?',
-                          style: TextStyle(
-                            fontSize: PSize.arw(context, 20),
-                            color: Colors.white,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        ZoomTapAnimation(
-                          onTap: () {
-                            // Navigate to the login screen
-                            // PNavigate.to(const HomeScreen());
-                            // light haptic feedback
-                            HapticFeedback.lightImpact();
-                          },
-                          child: Text(
-                            'Login',
-                            style: TextStyle(
-                              fontSize: PSize.arw(context, 20),
-                              color: PColors.primary(context),
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+
+                    // Row(
+                    //   mainAxisSize: MainAxisSize.max,
+                    //   mainAxisAlignment: MainAxisAlignment.center,
+                    //   children: [
+                    //     Text(
+                    //       'Already have an account?',
+                    //       style: TextStyle(
+                    //         fontSize: PSize.arw(context, 20),
+                    //         color: Colors.white,
+                    //         fontWeight: FontWeight.w400,
+                    //       ),
+                    //     ),
+                    //     const SizedBox(width: 10),
+                    //     ZoomTapAnimation(
+                    //       onTap: () {
+                    //         // Navigate to the login screen
+                    //         // PNavigate.to(const HomeScreen());
+                    //         // light haptic feedback
+                    //         HapticFeedback.lightImpact();
+                    //       },
+                    //       child: Text(
+                    //         'Login',
+                    //         style: TextStyle(
+                    //           fontSize: PSize.arw(context, 20),
+                    //           color: PColors.primary(context),
+                    //           fontWeight: FontWeight.w400,
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
                     SizedBox(height: PSize.rh(context, 20)),
                   ],
                 ),

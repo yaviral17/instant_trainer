@@ -1,5 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:instant_trainer/Utils/helpers/navigations.dart';
+import 'package:instant_trainer/Utils/storage/local_storage.dart';
+import 'package:instant_trainer/screens/dietplan/dietplan.dart';
 import 'package:instant_trainer/screens/home/home_screen.dart';
 import 'package:instant_trainer/screens/landing/landing_auth.dart';
 
@@ -16,8 +20,10 @@ class _SplashScreenState extends State<SplashScreen> {
     // TODO: implement initStates
     super.initState();
     Future.delayed(const Duration(seconds: 3), () {
-      // Navigate to the next screen after the splash screen
-      PNavigate.to(LandingAuthScreen());
+      log(LocalStorage().dataExists('dietPlan').toString(), name: "dietPlan");
+      LocalStorage().dataExists('dietPlan')
+          ? PNavigate.to(DietplanScreen())
+          : PNavigate.to(LandingAuthScreen());
     });
   }
 
