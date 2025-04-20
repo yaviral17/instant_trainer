@@ -40,7 +40,7 @@ class _OnboardingScreen5State extends State<OnboardingScreen5> {
       }
     }
 
-    PNavigate.to(OnboardingScreen6());
+    PNavigate.materialFade(OnboardingScreen6());
   }
 
   @override

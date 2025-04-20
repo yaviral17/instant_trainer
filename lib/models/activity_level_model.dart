@@ -58,35 +58,33 @@ class ActivityLevelModel {
       name: "Sedentary",
       description:
           "Little or no physical activity (e.g., desk job, minimal movement).",
-      prompt:
-          "The user has a sedentary lifestyle with minimal physical activity.",
+      prompt: "I have a sedentary lifestyle with minimal physical activity.",
       multiplier: 1.2,
     ),
     ActivityLevelModel(
       name: "Lightly Active",
       description:
           "Light daily activity like casual walking or light housework.",
-      prompt: "The user is lightly active with casual daily movement.",
+      prompt: "I am lightly active with casual daily movement.",
       multiplier: 1.375,
     ),
     ActivityLevelModel(
       name: "Moderately Active",
       description: "Regular physical activity or walks 3–5 times per week.",
-      prompt: "The user is moderately active with regular physical activity.",
+      prompt: "I am moderately active with regular physical activity.",
       multiplier: 1.55,
     ),
     ActivityLevelModel(
       name: "Very Active",
       description: "Intense workouts or physically demanding job.",
       prompt:
-          "The user is very active and exercises intensely or works a physical job.",
+          "I am very active and exercises intensely or works a physical job.",
       multiplier: 1.725,
     ),
     ActivityLevelModel(
       name: "Super Active",
       description: "Very intense workouts or daily training (e.g., athletes).",
-      prompt:
-          "The user has a super active lifestyle with daily intense training.",
+      prompt: "I have a super active lifestyle with daily intense training.",
       multiplier: 1.9,
     ),
   ];

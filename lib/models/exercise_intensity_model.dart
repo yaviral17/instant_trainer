@@ -56,31 +56,31 @@ class ExerciseIntensityModel {
     ExerciseIntensityModel(
       name: "Never",
       description: "I don't exercise at all.",
-      prompt: "User does not exercise at all.",
+      prompt: "I do not exercise at all.",
     ),
     ExerciseIntensityModel(
       name: "1-2 times a week",
       description:
           "I do light exercise (e.g., walking, yoga) 1-2 times a week.",
-      prompt: "User does light exercise 1-2 times a week.",
+      prompt: "I do light exercise 1-2 times a week.",
     ),
     ExerciseIntensityModel(
       name: "3-4 times a week",
       description:
           "I do moderate exercise (e.g., jogging, cycling) 3-4 times a week.",
-      prompt: "User does moderate exercise 3-4 times a week.",
+      prompt: "I do moderate exercise 3-4 times a week.",
     ),
     ExerciseIntensityModel(
       name: "5-6 times a week",
       description:
           "I do vigorous exercise (e.g., running, swimming) 5-6 times a week.",
-      prompt: "User does vigorous exercise 5-6 times a week.",
+      prompt: "I do vigorous exercise 5-6 times a week.",
     ),
     ExerciseIntensityModel(
       name: "Everyday",
       description:
           "I do intense exercise (e.g., HIIT, weightlifting) every day.",
-      prompt: "User does intense exercise every day.",
+      prompt: "I do intense exercise every day.",
     ),
   ];
 }

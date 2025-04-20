@@ -27,3 +27,7 @@ String tSignInWithEmail = "Sign In with Email";
 String tSignInWithPhone = "Sign In with Phone";
 String tSignInWithPhoneNumber = "Sign In with Phone Number";
 String tSignInWithPhoneNumberHint = "Enter your phone number";
+
+// prompts
+String tSupplimentLowbudget =
+    "Avoid recommending expensive items or supplements, budget is low (₹1000 - ₹3000/month).";

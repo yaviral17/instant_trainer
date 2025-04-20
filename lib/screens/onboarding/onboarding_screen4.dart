@@ -28,7 +28,7 @@ class _OnboardingScreen4State extends State<OnboardingScreen4> {
       );
     } else {
       // Navigate to the next screen
-      PNavigate.to(OnboardingScreen5());
+      PNavigate.materialFade(OnboardingScreen5());
     }
   }
 

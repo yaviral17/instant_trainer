@@ -62,21 +62,21 @@ class StepCountModel {
       name: 'Less than 3,000 steps',
       description: '',
       imageUrl: '',
-      prompt: 'User takes less than 3,000 steps a day',
+      prompt: 'I walk less than 3,000 steps a day',
       multiplier: 0,
     ),
     StepCountModel(
       name: '3,000 - 5,000 steps',
       description: '',
       imageUrl: '',
-      prompt: 'User takes between 3,000 and 5,000 steps a day',
+      prompt: 'I walk between 3,000 and 5,000 steps a day',
       multiplier: 0.05,
     ),
     StepCountModel(
       name: '5,000 - 8,000 steps',
       description: '',
       imageUrl: '',
-      prompt: 'User takes between 5,000 and 8,000 steps a day',
+      prompt: 'I walk between 5,000 and 8,000 steps a day',
       multiplier: 0.075,
     ),
 
@@ -84,7 +84,7 @@ class StepCountModel {
       name: '8,000 - 10,000 steps',
       description: '',
       imageUrl: '',
-      prompt: 'User takes between 8,000 and 10,000 steps a day',
+      prompt: 'I walk between 8,000 and 10,000 steps a day',
       multiplier: 0.1,
     ),
 
@@ -92,7 +92,7 @@ class StepCountModel {
       name: 'more than 10,000 steps',
       description: '',
       imageUrl: '',
-      prompt: 'User takes more than 10,000 steps a day',
+      prompt: 'I walk more than 10,000 steps a day',
       multiplier: 0.125,
     ),
   ];
