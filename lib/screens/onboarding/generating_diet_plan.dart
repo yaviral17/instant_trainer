@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:instant_trainer/APIs/api_functions.dart';
 import 'package:instant_trainer/APIs/ollama_service_api.dart';
 import 'package:instant_trainer/Utils/sizes.dart';
 import 'package:instant_trainer/Utils/theme/colors.dart';
@@ -20,7 +21,7 @@ class _GeneratingDietPlanState extends State<GeneratingDietPlan> {
 
   RxBool isLoading = true.obs;
 
-  Future<Map<String, dynamic>> _generateDietPlan() async {
+  Future<Map<String, dynamic>?> _generateDietPlan() async {
     isLoading.value = true;
 
     String prompt = '''
@@ -123,55 +124,16 @@ Please generate a structured JSON response with the following format:
     "amount": "2.5 liters",
     "notes": "Drink water throughout the day."
   },
-  "meal_tips": {
-    "breakfast": "Include protein and fiber.",
-    "lunch": "Opt for whole grains.",
-    "dinner": "Light and balanced."
-  },
-  "snack_tips": {
-    "healthy_snacks": ["Nuts", "Fruits", "Yogurt"],
-    "avoid_snacks": ["Chips", "Sweets"]
-  },
-  "exercise_tips": {
-    "suggested_exercises": ["Walking", "Yoga", "Strength Training"],
-    "avoid_exercises": ["High-impact activities"]
-  },
-  "cooking_tips": {
-    "healthy_cooking_methods": ["Grilling", "Steaming"],
-    "avoid_methods": ["Frying"]
-  },
-  "supplement_tips": {
-    "recommended_supplements": ["Protein Powder", "Multivitamins"],
-    "avoid_supplements": ["Excessive Caffeine"]
-  },
-  "allergy_tips": {
-    "common_allergens": ["Nuts", "Dairy"],
-    "avoid_allergens": ["Gluten"]
-  },
-  "notes": "Some extra tips, hydration advice, or goals"
 }
 ''';
 
     Get.log('Prompt: $prompt');
 
-    Map<String, dynamic> response = await OllamaService().sendChatPrompt(
-      prompt,
-    );
+    Map<String, dynamic> response = await tGetDietPlan(prompt);
+
     Get.log('Response: $response');
     isLoading.value = false;
-    if (response['isSuccess'] == true) {
-      return response;
-    } else {
-      Get.log('Error: ${response['error']}');
-      return {};
-    }
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _generateDietPlan();
+    return response;
   }
 
   @override
@@ -206,12 +168,147 @@ Please generate a structured JSON response with the following format:
                       ),
                     ],
                   ),
-                  child: FutureBuilder(
-                    future: _generateDietPlan(),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting ||
-                          isLoading.value) {
-                        Column(
+                  child: Obx(
+                    () => FutureBuilder(
+                      future: _generateDietPlan(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                                ConnectionState.waiting ||
+                            isLoading.value) {
+                          return Column(
+                            children: [
+                              Spacer(),
+                              AnimatedContainer(
+                                duration: Duration(milliseconds: 400),
+
+                                padding: EdgeInsets.all(18),
+                                decoration: BoxDecoration(
+                                  color: PColors.primary(context).withAlpha(36),
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                child: LoadingAnimationWidget.waveDots(
+                                  color: PColors.primary(context),
+                                  size: 36,
+                                ),
+                              ),
+                              Spacer(),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 24.0,
+                                ),
+                                child: FittedBox(
+                                  child: Text(
+                                    'Generating your diet plan',
+                                    style: TextStyle(
+                                      fontSize: 32,
+                                      fontWeight: FontWeight.bold,
+                                      color: PColors.primaryTextLight,
+                                    ),
+                                  ),
+                                ),
+                              ),
+
+                              SizedBox(height: PSize.arh(context, 6)),
+                              FittedBox(
+                                child: Text(
+                                  'We are generating a personalized diet plan for\nyou based on your preferences and goals.\n This may take a few moments.',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: PColors.searchtextFieldLight,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                              Spacer(),
+
+                              // ZoomTapAnimation(
+                              //   child: Container(
+                              //     width: PSize.displayWidth(context),
+                              //     height: PSize.arh(context, 56),
+                              //     decoration: BoxDecoration(
+                              //       color: PColors.backgroundDark,
+                              //       borderRadius: BorderRadius.circular(18),
+                              //     ),
+                              //     child: Row(
+                              //       mainAxisSize: MainAxisSize.max,
+                              //       mainAxisAlignment: MainAxisAlignment.center,
+                              //       children: [
+                              //         Text(
+                              //           'Continue',
+                              //           style: TextStyle(
+                              //             fontSize: PSize.arw(context, 20),
+                              //             color: PColors.primaryTextDark,
+                              //             fontWeight: FontWeight.w600,
+                              //           ),
+                              //         ),
+                              //         SizedBox(width: PSize.arw(context, 10)),
+                              //         Icon(
+                              //           Icons.arrow_forward_rounded,
+                              //           color: PColors.primaryTextDark,
+                              //           size: PSize.arw(context, 24),
+                              //         ),
+                              //       ],
+                              //     ),
+                              //   ),
+                              // ),
+                            ],
+                          );
+                        }
+                        if (snapshot.data!['isSuccess'] == false) {
+                          return Column(
+                            children: [
+                              Spacer(),
+                              AnimatedContainer(
+                                duration: Duration(milliseconds: 400),
+
+                                padding: EdgeInsets.all(18),
+                                decoration: BoxDecoration(
+                                  color: PColors.error.withAlpha(36),
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                child: Icon(
+                                  Icons.error,
+                                  color: PColors.error,
+                                  size: 36,
+                                ),
+                              ),
+                              Spacer(),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 24.0,
+                                ),
+                                child: FittedBox(
+                                  child: Text(
+                                    'Error generating diet plan',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 32,
+                                      fontWeight: FontWeight.bold,
+                                      color: PColors.primary(context),
+                                    ),
+                                  ),
+                                ),
+                              ),
+
+                              SizedBox(height: PSize.arh(context, 6)),
+                              FittedBox(
+                                child: Text(
+                                  'Error: ${snapshot.data!['error']}\n\nThere was an error generating your diet plan.\n Please try again later.',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: PColors.searchtextFieldLight,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                              Spacer(),
+                            ],
+                          );
+                        }
+
+                        return Column(
                           children: [
                             Spacer(),
                             AnimatedContainer(
@@ -219,11 +316,12 @@ Please generate a structured JSON response with the following format:
 
                               padding: EdgeInsets.all(18),
                               decoration: BoxDecoration(
-                                color: PColors.primary(context).withAlpha(36),
+                                color: PColors.success.withAlpha(36),
                                 borderRadius: BorderRadius.circular(16),
                               ),
-                              child: LoadingAnimationWidget.waveDots(
-                                color: PColors.primary(context),
+                              child: Icon(
+                                Icons.check_circle,
+                                color: PColors.success,
                                 size: 36,
                               ),
                             ),
@@ -234,11 +332,12 @@ Please generate a structured JSON response with the following format:
                               ),
                               child: FittedBox(
                                 child: Text(
-                                  'Generating your diet plan',
+                                  'Diet plan generated\nsuccessfully',
+                                  textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontSize: 32,
                                     fontWeight: FontWeight.bold,
-                                    color: PColors.primaryTextLight,
+                                    color: PColors.primary(context),
                                   ),
                                 ),
                               ),
@@ -247,7 +346,7 @@ Please generate a structured JSON response with the following format:
                             SizedBox(height: PSize.arh(context, 6)),
                             FittedBox(
                               child: Text(
-                                'We are generating a personalized diet plan for\nyou based on your preferences and goals.\n This may take a few moments.',
+                                'Your personalized diet plan has been generated.\n You can now view and customize it as per your needs.',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontSize: 16,
@@ -289,172 +388,8 @@ Please generate a structured JSON response with the following format:
                             ),
                           ],
                         );
-                      }
-                      if (snapshot.hasError) {
-                        return Column(
-                          children: [
-                            Spacer(),
-                            AnimatedContainer(
-                              duration: Duration(milliseconds: 400),
-
-                              padding: EdgeInsets.all(18),
-                              decoration: BoxDecoration(
-                                color: PColors.error.withAlpha(36),
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                              child: Icon(
-                                Icons.error,
-                                color: PColors.error,
-                                size: 36,
-                              ),
-                            ),
-                            Spacer(),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 24.0,
-                              ),
-                              child: FittedBox(
-                                child: Text(
-                                  'Error generating diet plan',
-                                  style: TextStyle(
-                                    fontSize: 32,
-                                    fontWeight: FontWeight.bold,
-                                    color: PColors.primaryTextLight,
-                                  ),
-                                ),
-                              ),
-                            ),
-
-                            SizedBox(height: PSize.arh(context, 6)),
-                            FittedBox(
-                              child: Text(
-                                'An error occurred while generating your diet plan.\n Please try again later.',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: PColors.searchtextFieldLight,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ),
-                            Spacer(),
-                            Visibility(
-                              visible: true,
-                              child: ZoomTapAnimation(
-                                child: Container(
-                                  width: PSize.displayWidth(context),
-                                  height: PSize.arh(context, 56),
-                                  decoration: BoxDecoration(
-                                    color: PColors.backgroundDark,
-                                    borderRadius: BorderRadius.circular(18),
-                                  ),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(
-                                        Icons.arrow_back_rounded,
-                                        color: PColors.primaryTextDark,
-                                        size: PSize.arw(context, 24),
-                                      ),
-                                      SizedBox(width: PSize.arw(context, 10)),
-                                      Text(
-                                        'Go Back',
-                                        style: TextStyle(
-                                          fontSize: PSize.arw(context, 20),
-                                          color: PColors.primaryTextDark,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        );
-                      }
-
-                      return Column(
-                        children: [
-                          Spacer(),
-                          AnimatedContainer(
-                            duration: Duration(milliseconds: 400),
-
-                            padding: EdgeInsets.all(18),
-                            decoration: BoxDecoration(
-                              color: PColors.success.withAlpha(36),
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            child: Icon(
-                              Icons.check_circle,
-                              color: PColors.success,
-                              size: 36,
-                            ),
-                          ),
-                          Spacer(),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 24.0,
-                            ),
-                            child: FittedBox(
-                              child: Text(
-                                'Diet plan generated successfully',
-                                style: TextStyle(
-                                  fontSize: 32,
-                                  fontWeight: FontWeight.bold,
-                                  color: PColors.primary(context),
-                                ),
-                              ),
-                            ),
-                          ),
-
-                          SizedBox(height: PSize.arh(context, 6)),
-                          FittedBox(
-                            child: Text(
-                              'Your personalized diet plan has been generated.\n You can now view and customize it as per your needs.',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: PColors.searchtextFieldLight,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                          Spacer(),
-                          ZoomTapAnimation(
-                            child: Container(
-                              width: PSize.displayWidth(context),
-                              height: PSize.arh(context, 56),
-                              decoration: BoxDecoration(
-                                color: PColors.backgroundDark,
-                                borderRadius: BorderRadius.circular(18),
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'Continue',
-                                    style: TextStyle(
-                                      fontSize: PSize.arw(context, 20),
-                                      color: PColors.primaryTextDark,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                  SizedBox(width: PSize.arw(context, 10)),
-                                  Icon(
-                                    Icons.arrow_forward_rounded,
-                                    color: PColors.primaryTextDark,
-                                    size: PSize.arw(context, 24),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      );
-                    },
+                      },
+                    ),
                   ),
                 ),
               ],
