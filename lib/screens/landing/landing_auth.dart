@@ -88,8 +88,6 @@ class _LandingAuthScreenState extends State<LandingAuthScreen> {
                     SizedBox(height: PSize.rh(context, 20)),
                     ZoomTapAnimation(
                       onTap: () {
-                        throw Exception('Test exception');
-
                         // Navigate to the next screen
                         // light haptic feedback
                         HapticFeedback.lightImpact();
