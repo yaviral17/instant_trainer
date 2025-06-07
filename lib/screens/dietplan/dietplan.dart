@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:instant_trainer/APIs/api_functions.dart';
 import 'package:instant_trainer/Utils/helpers/helper.dart';
 import 'package:instant_trainer/Utils/helpers/navigations.dart';
@@ -10,6 +11,7 @@ import 'package:instant_trainer/Utils/sizes.dart';
 import 'package:instant_trainer/Utils/storage/local_storage.dart';
 import 'package:instant_trainer/Utils/theme/colors.dart';
 import 'package:instant_trainer/controllers/onboarding_controller.dart';
+import 'package:instant_trainer/screens/home/home_screen.dart';
 import 'package:instant_trainer/screens/onboarding/onboarding_screen1.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
@@ -86,6 +88,51 @@ class _DietplanScreenState extends State<DietplanScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: PColors.containerSecondary(context),
+      bottomNavigationBar: Container(
+        color: PColors.background(context),
+        height: PSize.arh(context, 72),
+        child: Padding(
+          padding: const EdgeInsets.only(right: 18.0, left: 18.0, bottom: 20.0),
+          child: Expanded(
+            flex: 2,
+            child: ZoomTapAnimation(
+              onTap: () {
+                PNavigate.materialToRight(HomeScreen());
+              },
+              child: Container(
+                height: PSize.arh(context, 54),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 12,
+                  horizontal: 18,
+                ),
+                decoration: BoxDecoration(
+                  color: PColors.primary(context),
+                  borderRadius: BorderRadius.circular(18),
+                ),
+
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.save_rounded,
+                      color: PColors.primaryText(context),
+                    ),
+                    Spacer(),
+                    Text(
+                      'Save & Continue',
+                      style: TextStyle(
+                        fontSize: PSize.arw(context, 14),
+                        color: PColors.primaryText(context),
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    Spacer(),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
       body: Obx(
         () => Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -93,10 +140,11 @@ class _DietplanScreenState extends State<DietplanScreen> {
           mainAxisSize: MainAxisSize.max,
           children: [
             SafeArea(
-              child: Padding(
+              child: Container(
+                width: PSize.displayWidth(context),
                 padding: const EdgeInsets.symmetric(horizontal: 24.0),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     ZoomTapAnimation(
                       onTap: () => PNavigate.back(),
@@ -123,58 +171,41 @@ class _DietplanScreenState extends State<DietplanScreen> {
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    Spacer(),
-                    ZoomTapAnimation(
-                      onTap: () {
-                        // regenerate diet plan
-                        regenerateDietPlan();
-                      },
-                      child: Container(
-                        // height: PSize.arh(context, 32),
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 12,
-                          horizontal: 18,
-                        ),
-                        decoration: BoxDecoration(
-                          color: PColors.primaryTextDark,
-                          borderRadius: BorderRadius.circular(18),
-                        ),
-                        child: Center(
-                          child: Text(
-                            'Regenerate',
-                            style: TextStyle(
-                              fontSize: PSize.arw(context, 14),
-                              color: PColors.background(context),
-                              fontWeight: FontWeight.w700,
-                            ),
+                    const Spacer(),
+                    FittedBox(
+                      child: ZoomTapAnimation(
+                        onTap: () {
+                          // regenerate diet plan
+                          regenerateDietPlan();
+                        },
+                        child: Container(
+                          height: PSize.arh(context, 54),
+                          width: PSize.arw(context, 150),
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 12,
+                            horizontal: 18,
                           ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 6),
-                    ZoomTapAnimation(
-                      onTap: () {
-                        // regenerate diet plan
-                        PNavigate.materialToRight(OnboardingScreen1());
-                      },
-                      child: Container(
-                        // height: PSize.arh(context, 32),
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 12,
-                          horizontal: 18,
-                        ),
-                        decoration: BoxDecoration(
-                          color: PColors.primary(context),
-                          borderRadius: BorderRadius.circular(18),
-                        ),
-                        child: Center(
-                          child: Text(
-                            'Start over',
-                            style: TextStyle(
-                              fontSize: PSize.arw(context, 14),
-                              color: PColors.primaryText(context),
-                              fontWeight: FontWeight.w700,
-                            ),
+                          decoration: BoxDecoration(
+                            color: PColors.primaryTextDark,
+                            borderRadius: BorderRadius.circular(18),
+                          ),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.refresh_rounded,
+                                color: PColors.background(context),
+                              ),
+                              Spacer(),
+                              Text(
+                                'Regenerate',
+                                style: TextStyle(
+                                  fontSize: PSize.arw(context, 14),
+                                  color: PColors.background(context),
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                              Spacer(),
+                            ],
                           ),
                         ),
                       ),
@@ -481,35 +512,46 @@ class _DietplanScreenState extends State<DietplanScreen> {
                               '${dietPlan['daily_plan']['breakfast']['fiber']}',
                         ),
                         SizedBox(height: 20),
-                        Row(
-                          children: [
-                            Text(
-                              'Mid Morning Snack •',
-                              style: TextStyle(
-                                fontSize: PSize.arw(context, 20),
-                                color: PColors.primaryText(context),
-                                fontWeight: FontWeight.w600,
-                              ),
+                        SizedBox(
+                          width: PSize.displayWidth(context),
+                          height: PSize.arh(context, 40),
+                          child: FittedBox(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      'Mid Morning Snack •',
+                                      style: TextStyle(
+                                        fontSize: PSize.arw(context, 20),
+                                        color: PColors.primaryText(context),
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    Text(
+                                      ' ${dietPlan['daily_plan']['mid_morning_snack']['time']}',
+                                      style: TextStyle(
+                                        fontSize: PSize.arw(context, 20),
+                                        color: PColors.primary(context),
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                // const Spacer(),
+                                // items
+                                Text(
+                                  '${dietPlan['daily_plan']['mid_morning_snack']['items'].length} items',
+                                  style: TextStyle(
+                                    fontSize: PSize.arw(context, 16),
+                                    color: PColors.primaryText(context),
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ],
                             ),
-                            Text(
-                              ' ${dietPlan['daily_plan']['mid_morning_snack']['time']}',
-                              style: TextStyle(
-                                fontSize: PSize.arw(context, 20),
-                                color: PColors.primary(context),
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            const Spacer(),
-                            // items
-                            Text(
-                              '${dietPlan['daily_plan']['mid_morning_snack']['items'].length} items',
-                              style: TextStyle(
-                                fontSize: PSize.arw(context, 16),
-                                color: PColors.primaryText(context),
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
                         const SizedBox(height: 10),
                         MealCardWidget(

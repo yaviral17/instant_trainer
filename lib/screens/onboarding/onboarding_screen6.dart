@@ -42,162 +42,168 @@ class _OnboardingScreen6State extends State<OnboardingScreen6> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 18.0),
-        decoration: BoxDecoration(color: PColors.background(context)),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SafeArea(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ZoomTapAnimation(
-                    onTap: () => PNavigate.back(),
-                    child: Container(
-                      width: PSize.arw(context, 48),
-                      height: PSize.arw(context, 48),
-                      decoration: BoxDecoration(
-                        color: PColors.primaryText(context),
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-                      child: Icon(
-                        Icons.arrow_back_ios_new_rounded,
-                        color: PColors.background(context),
-                        size: PSize.arw(context, 20),
+      body: SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 18.0),
+          decoration: BoxDecoration(color: PColors.background(context)),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SafeArea(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ZoomTapAnimation(
+                      onTap: () => PNavigate.back(),
+                      child: Container(
+                        width: PSize.arw(context, 48),
+                        height: PSize.arw(context, 48),
+                        decoration: BoxDecoration(
+                          color: PColors.primaryText(context),
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                        child: Icon(
+                          Icons.arrow_back_ios_new_rounded,
+                          color: PColors.background(context),
+                          size: PSize.arw(context, 20),
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(width: 20),
+                    const SizedBox(width: 20),
+                    Text(
+                      'Assessment',
+                      style: TextStyle(
+                        fontSize: PSize.arw(context, 24),
+                        color: PColors.primaryText(context),
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    Spacer(),
+                    Container(
+                      // height: PSize.arh(context, 32),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 12,
+                        horizontal: 18,
+                      ),
+                      decoration: BoxDecoration(
+                        color: PColors.primary(context).withAlpha(45),
+                        borderRadius: BorderRadius.circular(18),
+                      ),
+                      child: Center(
+                        child: Text(
+                          '6 of 6',
+                          style: TextStyle(
+                            fontSize: PSize.arw(context, 20),
+                            color: PColors.primary(context),
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: PSize.arh(context, 20)),
+              Column(
+                children: [
                   Text(
-                    'Assessment',
+                    'How much can you spend on your diet per month?',
                     style: TextStyle(
-                      fontSize: PSize.arw(context, 24),
+                      fontSize: PSize.arw(context, 18),
                       color: PColors.primaryText(context),
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  Spacer(),
-                  Container(
-                    // height: PSize.arh(context, 32),
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 12,
-                      horizontal: 18,
-                    ),
-                    decoration: BoxDecoration(
-                      color: PColors.primary(context).withAlpha(45),
-                      borderRadius: BorderRadius.circular(18),
-                    ),
-                    child: Center(
-                      child: Text(
-                        '6 of 6',
-                        style: TextStyle(
-                          fontSize: PSize.arw(context, 20),
-                          color: PColors.primary(context),
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
+                  SizedBox(height: PSize.arh(context, 4)),
+                  Text(
+                    'This will help us understand your budget and suggest a suitable diet plan.',
+                    style: TextStyle(
+                      fontSize: PSize.arw(context, 14),
+                      color: PColors.primaryText(context).withAlpha(150),
+                      fontWeight: FontWeight.w400,
                     ),
                   ),
-                ],
-              ),
-            ),
-            SizedBox(height: PSize.arh(context, 20)),
-            Text(
-              'How much can you spend on your diet per month?',
-              style: TextStyle(
-                fontSize: PSize.arw(context, 18),
-                color: PColors.primaryText(context),
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            SizedBox(height: PSize.arh(context, 4)),
-            Text(
-              'This will help us understand your budget and suggest a suitable diet plan.',
-              style: TextStyle(
-                fontSize: PSize.arw(context, 14),
-                color: PColors.primaryText(context).withAlpha(150),
-                fontWeight: FontWeight.w400,
-              ),
-            ),
 
-            ListView.builder(
-              itemCount: SpendingModel.spendingRange.length,
-              shrinkWrap: true,
-              padding: const EdgeInsets.only(top: 18),
-              physics: const NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index) {
-                return Obx(
-                  () => SpendingCardWidget(
-                    data: SpendingModel.spendingRange[index],
-                    isSelected:
-                        controller.selectedSpending.value ==
-                                SpendingModel.spendingRange[index]
-                            ? true
-                            : false,
-                    onTap: () {
-                      controller.selectedSpending.value =
-                          SpendingModel.spendingRange[index];
+                  ListView.builder(
+                    itemCount: SpendingModel.spendingRange.length,
+                    shrinkWrap: true,
+                    padding: const EdgeInsets.only(top: 18),
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return Obx(
+                        () => SpendingCardWidget(
+                          data: SpendingModel.spendingRange[index],
+                          isSelected:
+                              controller.selectedSpending.value ==
+                                      SpendingModel.spendingRange[index]
+                                  ? true
+                                  : false,
+                          onTap: () {
+                            controller.selectedSpending.value =
+                                SpendingModel.spendingRange[index];
+                          },
+                        ),
+                      );
                     },
                   ),
-                );
-              },
-            ),
-            SizedBox(height: PSize.arh(context, 20)),
-            Text(
-              'Are you comfortable with taking supplements (like protein powder, multivitamins, etc.)?',
-              style: TextStyle(
-                fontSize: PSize.arw(context, 18),
-                color: PColors.primaryText(context),
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            SizedBox(height: PSize.arh(context, 12)),
-            // yes or no button and no is  selected
-            Obx(
-              () => Row(
-                children: [
-                  ChipButton(
-                    text: 'Yes',
-                    isSelected:
-                        controller.selectedSupplementPreference.value ==
-                        SupplementPreference.yes,
-                    selectedTextColor: PColors.primaryText(context),
-                    onTap: () {
-                      controller.selectedSupplementPreference.value =
-                          SupplementPreference.yes;
-                    },
+                  SizedBox(height: PSize.arh(context, 20)),
+                  Text(
+                    'Are you comfortable with taking supplements (like protein powder, multivitamins, etc.)?',
+                    style: TextStyle(
+                      fontSize: PSize.arw(context, 18),
+                      color: PColors.primaryText(context),
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
-                  const SizedBox(width: 12),
-                  ChipButton(
-                    text: 'No',
-                    isSelected:
-                        controller.selectedSupplementPreference.value ==
-                        SupplementPreference.no,
-                    selectedTextColor: PColors.primaryText(context),
-                    onTap: () {
-                      controller.selectedSupplementPreference.value =
-                          SupplementPreference.no;
-                    },
-                  ),
-                  const SizedBox(width: 12),
-                  ChipButton(
-                    text: 'Maybe',
-                    isSelected:
-                        controller.selectedSupplementPreference.value ==
-                        SupplementPreference.maybe,
-                    selectedTextColor: PColors.primaryText(context),
-                    onTap: () {
-                      controller.selectedSupplementPreference.value =
-                          SupplementPreference.maybe;
-                    },
+                  SizedBox(height: PSize.arh(context, 12)),
+                  // yes or no button and no is  selected
+                  Obx(
+                    () => Row(
+                      children: [
+                        ChipButton(
+                          text: 'Yes',
+                          isSelected:
+                              controller.selectedSupplementPreference.value ==
+                              SupplementPreference.yes,
+                          selectedTextColor: PColors.primaryText(context),
+                          onTap: () {
+                            controller.selectedSupplementPreference.value =
+                                SupplementPreference.yes;
+                          },
+                        ),
+                        const SizedBox(width: 12),
+                        ChipButton(
+                          text: 'No',
+                          isSelected:
+                              controller.selectedSupplementPreference.value ==
+                              SupplementPreference.no,
+                          selectedTextColor: PColors.primaryText(context),
+                          onTap: () {
+                            controller.selectedSupplementPreference.value =
+                                SupplementPreference.no;
+                          },
+                        ),
+                        const SizedBox(width: 12),
+                        ChipButton(
+                          text: 'Maybe',
+                          isSelected:
+                              controller.selectedSupplementPreference.value ==
+                              SupplementPreference.maybe,
+                          selectedTextColor: PColors.primaryText(context),
+                          onTap: () {
+                            controller.selectedSupplementPreference.value =
+                                SupplementPreference.maybe;
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: SafeArea(

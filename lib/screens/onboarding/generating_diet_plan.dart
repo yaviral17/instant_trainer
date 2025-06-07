@@ -141,6 +141,10 @@ Please generate a structured JSON response with the following format:
 - ensure the JSON structure and keys name are same as given above.
 ''';
 
+    // ### ADDITIONAL INFORMATION
+    // - User wants to add more information which is mentioned below:
+    // \${controller.additionalInfoController.text.trim()}
+
     LocalStorage().saveData('dietPlanPrompt', {'prompt': prompt});
 
     Map<String, dynamic> response = await tGetDietPlan(prompt);

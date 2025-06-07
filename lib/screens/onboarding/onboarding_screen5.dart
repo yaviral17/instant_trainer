@@ -152,42 +152,37 @@ class _OnboardingScreen5State extends State<OnboardingScreen5> {
                 },
               ),
               SizedBox(height: PSize.arh(context, 20)),
-              Row(
-                children: [
-                  Text(
-                    'Do you track your daily steps?',
-                    style: TextStyle(
-                      fontSize: PSize.arw(context, 18),
-                      color: PColors.primaryText(context),
-                      fontWeight: FontWeight.w600,
+              Text(
+                'Do you track your daily steps?',
+                style: TextStyle(
+                  fontSize: PSize.arw(context, 18),
+                  color: PColors.primaryText(context),
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              SizedBox(height: PSize.arh(context, 12)),
+              Obx(
+                () => Row(
+                  children: [
+                    ChipButton(
+                      text: 'Yes',
+                      isSelected: controller.isStepTracking.value,
+                      selectedTextColor: PColors.primaryText(context),
+                      onTap: () {
+                        controller.isStepTracking.value = true;
+                      },
                     ),
-                  ),
-                  const Spacer(),
-                  // yes or no button and no is  selected
-                  Obx(
-                    () => Row(
-                      children: [
-                        ChipButton(
-                          text: 'Yes',
-                          isSelected: controller.isStepTracking.value,
-                          selectedTextColor: PColors.primaryText(context),
-                          onTap: () {
-                            controller.isStepTracking.value = true;
-                          },
-                        ),
-                        const SizedBox(width: 12),
-                        ChipButton(
-                          text: 'No',
-                          isSelected: !controller.isStepTracking.value,
-                          selectedTextColor: PColors.primaryText(context),
-                          onTap: () {
-                            controller.isStepTracking.value = false;
-                          },
-                        ),
-                      ],
+                    const SizedBox(width: 12),
+                    ChipButton(
+                      text: 'No',
+                      isSelected: !controller.isStepTracking.value,
+                      selectedTextColor: PColors.primaryText(context),
+                      onTap: () {
+                        controller.isStepTracking.value = false;
+                      },
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
 
               SizedBox(height: PSize.arh(context, 20)),

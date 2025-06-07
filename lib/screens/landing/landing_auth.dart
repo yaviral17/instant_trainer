@@ -52,37 +52,46 @@ class _LandingAuthScreenState extends State<LandingAuthScreen> {
                       width: PSize.arw(context, 90),
                     ),
                     const SizedBox(height: 20),
-                    Text(
-                      'Welcome to',
-                      style: TextStyle(
-                        fontSize: PSize.arw(context, 64),
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
+                    FittedBox(
+                      child: Text(
+                        'Welcome to',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: PSize.arw(context, 64),
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                    Text(
-                      'trainer.ai',
-                      style: TextStyle(
-                        fontSize: PSize.arw(context, 64),
-                        color: PColors.primary(context),
-                        fontWeight: FontWeight.bold,
+                    FittedBox(
+                      child: Text(
+                        'trainer.ai',
+                        style: TextStyle(
+                          fontSize: PSize.arw(context, 64),
+                          color: PColors.primary(context),
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                     SizedBox(height: PSize.rh(context, 20)),
-                    Text(
-                      'Your Instant AI 🤖 Trainer ',
-                      style: TextStyle(
-                        fontSize: PSize.arw(context, 20),
-                        color: Colors.white,
-                        fontWeight: FontWeight.w400,
+                    FittedBox(
+                      child: Text(
+                        'Your Instant AI 🤖 Trainer ',
+                        style: TextStyle(
+                          fontSize: PSize.arw(context, 20),
+                          color: Colors.white,
+                          fontWeight: FontWeight.w400,
+                        ),
                       ),
                     ),
-                    Text(
-                      'Get started with your fitness journey',
-                      style: TextStyle(
-                        fontSize: PSize.arw(context, 20),
-                        color: Colors.white,
-                        fontWeight: FontWeight.w400,
+                    FittedBox(
+                      child: Text(
+                        'Get started with your fitness journey',
+                        style: TextStyle(
+                          fontSize: PSize.arw(context, 20),
+                          color: Colors.white,
+                          fontWeight: FontWeight.w400,
+                        ),
                       ),
                     ),
                     SizedBox(height: PSize.rh(context, 20)),
