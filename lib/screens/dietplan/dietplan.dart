@@ -11,13 +11,14 @@ import 'package:instant_trainer/Utils/sizes.dart';
 import 'package:instant_trainer/Utils/storage/local_storage.dart';
 import 'package:instant_trainer/Utils/theme/colors.dart';
 import 'package:instant_trainer/controllers/onboarding_controller.dart';
-import 'package:instant_trainer/screens/home/home_screen.dart';
+import 'package:instant_trainer/screens/dashboard/dashboard_screen.dart';
 import 'package:instant_trainer/screens/onboarding/onboarding_screen1.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
 class DietplanScreen extends StatefulWidget {
-  const DietplanScreen({super.key});
+  final Map<String, dynamic> dietPlanData;
+  const DietplanScreen({super.key, required this.dietPlanData});
 
   @override
   State<DietplanScreen> createState() => _DietplanScreenState();
@@ -55,7 +56,7 @@ class _DietplanScreenState extends State<DietplanScreen> {
     }
 
     controller.generatedDietPlan.value = newDietPlan;
-    LocalStorage().saveData('dietPlan', newDietPlan);
+
     dietPlan = jsonDecode(
       controller.generatedDietPlan.value['choices'][0]['message']['content']
           .split('```')[1]
@@ -68,71 +69,72 @@ class _DietplanScreenState extends State<DietplanScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    controller.generatedDietPlan.value =
-        LocalStorage().getData('dietPlan') ?? {};
+
     // copy to clipboard
     // Clipboard.setData(
     //   ClipboardData(text: controller.generatedDietPlan.values.toString()),
     // );
 
+    dataParsingToMap().then((e) {
+      LocalStorage().saveData('dietPlan', controller.generatedDietPlan);
+    });
+  }
+
+  Future<void> dataParsingToMap() async {
+    log('Diet Plan: ${controller.generatedDietPlan.toString()}');
+    controller.generatedDietPlan.value = widget.dietPlanData;
     dietPlan = jsonDecode(
-      controller.generatedDietPlan.value['choices'][0]['message']['content']
+      controller.generatedDietPlan['choices'][0]['message']['content']
           .split('```')[1]
           .replaceAll('json', ''),
     );
     promptData = LocalStorage().getData('dietPlanPrompt') ?? {};
-    // log('Diet Plan: ${dietPlan.toString()}');
+    log('Diet Plan: ${dietPlan.toString()}');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: PColors.containerSecondary(context),
-      bottomNavigationBar: Container(
-        color: PColors.background(context),
-        height: PSize.arh(context, 72),
-        child: Padding(
-          padding: const EdgeInsets.only(right: 18.0, left: 18.0, bottom: 20.0),
-          child: Expanded(
-            flex: 2,
-            child: ZoomTapAnimation(
-              onTap: () {
-                PNavigate.materialToRight(HomeScreen());
-              },
-              child: Container(
-                height: PSize.arh(context, 54),
-                padding: const EdgeInsets.symmetric(
-                  vertical: 12,
-                  horizontal: 18,
-                ),
-                decoration: BoxDecoration(
-                  color: PColors.primary(context),
-                  borderRadius: BorderRadius.circular(18),
-                ),
+      backgroundColor: PColors.background(context),
+      // bottomNavigationBar:
 
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.save_rounded,
-                      color: PColors.primaryText(context),
-                    ),
-                    Spacer(),
-                    Text(
-                      'Save & Continue',
-                      style: TextStyle(
-                        fontSize: PSize.arw(context, 14),
-                        color: PColors.primaryText(context),
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    Spacer(),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
+      //  Container(
+      //   color: PColors.background(context),
+      //   height: PSize.arh(context, 72),
+      //   child: Padding(
+      //     padding: const EdgeInsets.only(right: 18.0, left: 18.0, bottom: 20.0),
+      //     child: ZoomTapAnimation(
+      //       onTap: () {
+      // LocalStorage().saveData('dietPlan', controller.generatedDietPlan);
+      //         PNavigate.materialToRight(DashboardScreen());
+      //       },
+      //       child: Container(
+      //         height: PSize.arh(context, 54),
+      //         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 18),
+      //         decoration: BoxDecoration(
+      //           color: PColors.primary(context),
+      //           borderRadius: BorderRadius.circular(18),
+      //         ),
+
+      //         child: Row(
+      //           children: [
+      //             Icon(Icons.save_rounded, color: PColors.primaryTextDark),
+      //             Spacer(),
+      //             Text(
+      //               'Save & Continue',
+      //               style: TextStyle(
+      //                 fontSize: PSize.arw(context, 14),
+      //                 color: PColors.primaryTextDark,
+      //                 fontWeight: FontWeight.w700,
+      //               ),
+      //             ),
+      //             Spacer(),
+      //           ],
+      //         ),
+      //       ),
+      //     ),
+      //   ),
+      // ),
       body: Obx(
         () => Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -146,19 +148,22 @@ class _DietplanScreenState extends State<DietplanScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    ZoomTapAnimation(
-                      onTap: () => PNavigate.back(),
-                      child: Container(
-                        width: PSize.arw(context, 48),
-                        height: PSize.arw(context, 48),
-                        decoration: BoxDecoration(
-                          color: PColors.primaryText(context),
-                          borderRadius: BorderRadius.circular(14),
-                        ),
-                        child: Icon(
-                          Icons.arrow_back_ios_new_rounded,
-                          color: PColors.background(context),
-                          size: PSize.arw(context, 20),
+                    Visibility(
+                      visible: false,
+                      child: ZoomTapAnimation(
+                        onTap: () => PNavigate.back(),
+                        child: Container(
+                          width: PSize.arw(context, 48),
+                          height: PSize.arw(context, 48),
+                          decoration: BoxDecoration(
+                            color: PColors.primaryText(context),
+                            borderRadius: BorderRadius.circular(14),
+                          ),
+                          child: Icon(
+                            Icons.arrow_back_ios_new_rounded,
+                            color: PColors.background(context),
+                            size: PSize.arw(context, 20),
+                          ),
                         ),
                       ),
                     ),
@@ -186,7 +191,7 @@ class _DietplanScreenState extends State<DietplanScreen> {
                             horizontal: 18,
                           ),
                           decoration: BoxDecoration(
-                            color: PColors.primaryTextDark,
+                            color: PColors.primaryText(context),
                             borderRadius: BorderRadius.circular(18),
                           ),
                           child: Row(
@@ -454,11 +459,13 @@ class _DietplanScreenState extends State<DietplanScreen> {
                     horizontal: 24,
                     vertical: 20,
                   ),
+                  margin: EdgeInsets.symmetric(vertical: 4, horizontal: 4),
                   decoration: BoxDecoration(
-                    color: PColors.background(context),
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(24),
-                      topRight: Radius.circular(24),
+                    color: PColors.containerSecondary(context).withAlpha(20),
+                    borderRadius: BorderRadius.circular(24),
+                    border: Border.all(
+                      color: PColors.primaryText(context).withAlpha(20),
+                      width: 2,
                     ),
                   ),
                   child: SingleChildScrollView(

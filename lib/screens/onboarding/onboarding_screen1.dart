@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:instant_trainer/APIs/firestore_apis.dart';
 import 'package:instant_trainer/Utils/helpers/helper.dart';
 import 'package:instant_trainer/Utils/helpers/navigations.dart';
 import 'package:instant_trainer/Utils/sizes.dart';
@@ -23,6 +25,8 @@ class _OnboardingScreen1State extends State<OnboardingScreen1> {
   FocusNode weightFocus = FocusNode();
   FocusNode heightFocus = FocusNode();
   FocusNode genderFocus = FocusNode();
+
+  final FirestoreAPIs firestoreAPIs = FirestoreAPIs();
 
   final OnboardingController onboardingController = Get.find();
 
@@ -68,6 +72,18 @@ class _OnboardingScreen1State extends State<OnboardingScreen1> {
       heightFocus.requestFocus();
       return;
     }
+
+    PHelper.deviceInfo().then((value) {
+      firestoreAPIs.addUsage(
+        FirebaseAuth.instance.currentUser!.uid,
+        onboardingController.nameController.text.trim(),
+        onboardingController.ageController.text,
+        double.parse(onboardingController.weightController.text),
+        double.parse(onboardingController.heightController.text),
+        value,
+        onboardingController.isMale.value ? "male" : "female",
+      );
+    });
 
     PNavigate.materialFade(OnboardingScreen2());
   }

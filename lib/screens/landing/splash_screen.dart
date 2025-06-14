@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:instant_trainer/Utils/helpers/navigations.dart';
 import 'package:instant_trainer/Utils/storage/local_storage.dart';
 import 'package:instant_trainer/screens/dietplan/dietplan.dart';
-import 'package:instant_trainer/screens/home/home_screen.dart';
+import 'package:instant_trainer/screens/dashboard/dashboard_screen.dart';
 import 'package:instant_trainer/screens/landing/landing_auth.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -20,9 +20,11 @@ class _SplashScreenState extends State<SplashScreen> {
     // TODO: implement initStates
     super.initState();
     Future.delayed(const Duration(seconds: 3), () {
-      // log(LocalStorage().dataExists('dietPlan').toString(), name: "dietPlan");
+      log(LocalStorage().dataExists('dietPlan').toString(), name: "dietPlan");
+      Map<String, dynamic> dietPlanData =
+          LocalStorage().getData('dietPlan') ?? {};
       LocalStorage().dataExists('dietPlan')
-          ? PNavigate.to(DietplanScreen())
+          ? PNavigate.to(DietplanScreen(dietPlanData: dietPlanData))
           : PNavigate.to(LandingAuthScreen());
     });
   }

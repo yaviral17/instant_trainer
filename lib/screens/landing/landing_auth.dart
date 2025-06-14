@@ -1,10 +1,14 @@
+import 'dart:developer';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:instant_trainer/Utils/helpers/navigations.dart';
 import 'package:instant_trainer/Utils/sizes.dart';
 import 'package:instant_trainer/Utils/theme/colors.dart';
 import 'package:instant_trainer/controllers/onboarding_controller.dart';
-import 'package:instant_trainer/screens/home/home_screen.dart';
+import 'package:instant_trainer/screens/dashboard/dashboard_screen.dart';
 import 'package:instant_trainer/screens/onboarding/onboarding_screen1.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
@@ -99,8 +103,26 @@ class _LandingAuthScreenState extends State<LandingAuthScreen> {
                       onTap: () {
                         // Navigate to the next screen
                         // light haptic feedback
+
                         HapticFeedback.lightImpact();
-                        PNavigate.to(const OnboardingScreen1());
+                        FirebaseAuth.instance
+                            .signInAnonymously()
+                            .then((userCredential) {
+                              // User signed in successfully
+                              // Navigate to the onboarding screen
+                              log(
+                                'User signed in anonymously: ${userCredential.user?.uid}',
+                              );
+                              // Get.put(OnboardingController());
+                            })
+                            .catchError((error) {
+                              // Handle error
+                              print('Error signing in anonymously: $error');
+                            });
+                        PNavigate.to(
+                          const OnboardingScreen1(),
+                          context: Get.context,
+                        );
                       },
                       child: Container(
                         width: PSize.arw(context, 207),

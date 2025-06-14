@@ -38,7 +38,7 @@ android {
         applicationId = "com.yaviral.trainer"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdkVersion(21)
+        minSdkVersion(23)
         targetSdkVersion(34)
         versionCode = 1        // Increment this on every upload
         versionName = "1.0.0"  // User-visible version

@@ -2,7 +2,11 @@ import 'package:get_storage/get_storage.dart';
 
 class LocalStorage {
   // initialize the local storage
-  final box = GetStorage("it");
+  Future<void> initialize() async {
+    await GetStorage.init();
+  }
+
+  final GetStorage box = GetStorage("it");
 
   // save Map<String, dynamic> data to local storage
   void saveData(String key, Map<String, dynamic> data) {

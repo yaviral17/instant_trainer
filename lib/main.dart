@@ -14,7 +14,7 @@ import 'package:instant_trainer/controllers/init_controllers.dart';
 import 'package:instant_trainer/firebase_options.dart';
 import 'package:instant_trainer/screens/dietplan/dietplan.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:instant_trainer/screens/home/home_screen.dart';
+import 'package:instant_trainer/screens/dashboard/dashboard_screen.dart';
 import 'package:instant_trainer/screens/landing/landing_auth.dart';
 import 'package:instant_trainer/screens/landing/splash_screen.dart';
 
@@ -48,10 +48,10 @@ void main() async {
     FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
     return true;
   };
+  await LocalStorage().initialize();
 
   PSize.screenHeight = 812;
   PSize.screenWidth = 375;
-  await GetStorage.init();
   // log(
   //   'GetStorage initialized  diet plan ${LocalStorage().getData('dietPlan')}',
   // );
@@ -78,8 +78,11 @@ class StartApp extends StatelessWidget {
       // },
       getPages: [
         GetPage(name: '/', page: () => const SplashScreen()),
-        GetPage(name: '/home', page: () => const HomeScreen()),
-        GetPage(name: '/dietplan', page: () => const DietplanScreen()),
+        GetPage(name: '/dashboard', page: () => const DashboardScreen()),
+        GetPage(
+          name: '/dietplan',
+          page: () => const DietplanScreen(dietPlanData: {}),
+        ),
         GetPage(name: '/landing', page: () => const LandingAuthScreen()),
       ],
     );

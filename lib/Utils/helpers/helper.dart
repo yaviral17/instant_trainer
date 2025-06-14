@@ -183,6 +183,55 @@ class PHelper {
     }
   }
 
+  static Future<Map<String, dynamic>> deviceInfo() async {
+    final DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    if (kIsWeb) {
+      final WebBrowserInfo webBrowserInfo = await deviceInfo.webBrowserInfo;
+      return {
+        'platform': 'web',
+        'browserName': webBrowserInfo.browserName,
+        'userAgent': webBrowserInfo.userAgent,
+      };
+    } else if (Platform.isAndroid) {
+      final AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+      return {
+        'platform': 'android',
+        'model': androidInfo.model,
+        'version': androidInfo.version.release,
+        'device': androidInfo.device,
+      };
+    } else if (Platform.isIOS) {
+      final IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+      return {
+        'platform': 'ios',
+        'model': iosInfo.model,
+        'version': iosInfo.systemVersion,
+      };
+    } else if (Platform.isLinux) {
+      final LinuxDeviceInfo linuxInfo = await deviceInfo.linuxInfo;
+      return {
+        'platform': 'linux',
+        'name': linuxInfo.name,
+        'version': linuxInfo.version,
+      };
+    } else if (Platform.isMacOS) {
+      final MacOsDeviceInfo macOsInfo = await deviceInfo.macOsInfo;
+      return {
+        'platform': 'macos',
+        'name': macOsInfo.computerName,
+        'version': macOsInfo.osRelease,
+      };
+    } else if (Platform.isWindows) {
+      final WindowsDeviceInfo windowsInfo = await deviceInfo.windowsInfo;
+      return {
+        'platform': 'windows',
+        'name': windowsInfo.computerName,
+        'version': windowsInfo.minorVersion,
+      };
+    }
+    return {};
+  }
+
   static Future<File?> pickImageWithCrop(
     BuildContext context,
     bool isCamera,

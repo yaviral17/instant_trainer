@@ -155,10 +155,9 @@ Please generate a structured JSON response with the following format:
       controller.generatedDietPlan.value = response;
       controller.generatedDietPlan['createAt'] =
           DateTime.now().toIso8601String();
-      LocalStorage().saveData('dietPlan', response);
-      // log('Diet plan saved to local storage');
+
       Future.delayed(Duration(seconds: 3), () {
-        PNavigate.toAndRemoveUntil(DietplanScreen());
+        PNavigate.toAndRemoveUntil(DietplanScreen(dietPlanData: response));
       });
     } else {
       controller.generatedDietPlan.value = {};
