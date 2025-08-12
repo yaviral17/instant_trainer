@@ -40,8 +40,8 @@ android {
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdkVersion(23)
         targetSdkVersion(34)
-        versionCode = 1        // Increment this on every upload
-        versionName = "1.0.0"  // User-visible version
+        versionCode = 2        // Increment this on every upload
+        versionName = "1.0.1"  // User-visible version
     }
 
     signingConfigs {

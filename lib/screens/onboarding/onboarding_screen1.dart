@@ -28,7 +28,9 @@ class _OnboardingScreen1State extends State<OnboardingScreen1> {
 
   final FirestoreAPIs firestoreAPIs = FirestoreAPIs();
 
-  final OnboardingController onboardingController = Get.find();
+  final OnboardingController onboardingController = Get.put(
+    OnboardingController(),
+  );
 
   int age = 0;
   @override
